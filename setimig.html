@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="setimig.css">
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
+
+    <title>7.5</title>
+</head>
+<body>
+    <h1>SET I MIG</h1>
+    <div id="divinicial">
+        <h2>EXPLICACION DEL JUEGO</h2>
+        <p>
+            En este juego, el objetivo es llegar lo más cerca posible de 7,5 sin pasarse. Las cartas del 1 al 7 tienen su valor nominal, mientras que las figuras (sota, caballo y rey) tienen un valor de 0,5 cada una. Las cartas 8 y 9 no se usan en este juego, y las cartas 10, 11 y 12 se consideran figuras y tienen un valor de 0,5 cada una.
+            <br><br>
+            El juego comienza con el crupier repartiendo una carta boca abajo al jugador y otra carta boca abajo a sí mismo. A continuación, el crupier reparte una segunda carta boca arriba al jugador y una segunda carta boca abajo a sí mismo.
+            <br><br>
+            En este punto, el jugador puede elegir "plantarse" con su mano actual o "pedir" otra carta para mejorar su mano. Si el jugador elige "pedir", el crupier le dará otra carta boca arriba. El jugador puede seguir pidiendo cartas hasta que decida plantarse o hasta que su mano tenga un valor total de más de 7,5 (lo que significa que ha perdido automáticamente).
+            <br><br>
+            Una vez que el jugador se planta, el crupier revela su segunda carta y continúa pidiendo cartas hasta que su mano tenga un valor total de al menos 5,5. Si la mano del crupier tiene un valor total de más de 7,5, el jugador gana automáticamente. Si la mano del crupier no se pasa de 7,5, entonces se compara con la mano del jugador.
+            <br><br>
+            Si la mano del jugador es más cercana a 7,5 que la del crupier, entonces el jugador gana. Si la mano del crupier es más cercana a 7,5 que la del jugador, entonces el crupier gana. Si las manos están igualmente cerca de 7,5, entonces se considera un empate y se devuelve la apuesta del jugador.
+            <br><br>
+            Espero que esto haya sido útil para entender cómo se juega al Siete y Medio. ¡Disfruta del juego!
+            <br><br>
+            Introduzca el importe con el que deseas empezar:
+        </p>
+        <input type="number" value="0" name="" id="totalinicial" placeholder="____">
+        <input type="button" value="EMPEZAR JUEGO" id="iniciarjoc">
+    </div>
+
+
+    <div id="divjoc">
+        <h3>CROUPIER</h3>
+        <h5 id="sumacropier" style="text-align: center">La mano del croupier es de : </h5>
+        <div id="divcropier">
+            <div class="cartes">
+            </div>
+            <div class="cartes">
+            </div>
+            <div class="cartes">
+            </div>
+            <div class="cartes">
+            </div>
+            <div class="cartes">
+            </div>
+        </div>
+        <h3>JUGADOR</h3>
+        <h5 id="sumajugador" style="text-align: center">La mano del jugador es de : </h5>
+        <div id="divjugador">
+            <div class="cartes">
+            </div>
+            <div class="cartes">
+            </div>
+            <div class="cartes">
+            </div>
+            <div class="cartes">
+            </div>
+            <div class="cartes">
+            </div>
+        </div>
+        <div id="diners">
+            <label for="total" id="totallabel">SALDO</label>
+            <label for="import" id="importlabel">IMPORT</label>
+            <input id="total" type="number" value="0" disabled style="color: darkgreen; opacity: 1" >
+            <input type="number" name="import" id="import" value="" placeholder="_____" style="color: #007bff;">
+        </div>
+        <div id="divbuttons">
+            <input type="button" id="apostar" value="PEDIR">
+            <input type="button" id="parar" value="PLANTARSE">
+            <input type="button" id="nuevojuego" value="NUEVO JUEGO">
+        </div>
+    </div>
+
+
+
+    <script type="module" src="setimig.js"></script>
+</body>
+</html>
