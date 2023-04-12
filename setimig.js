@@ -1,8 +1,19 @@
+import {Baraja} from "./class.js";
+
 document.getElementById("iniciarjoc").addEventListener("click", empezar)
+const divcartes = document.getElementsByClassName("cartes")
+let importapostat = document.getElementById("import")
+let importotal = document.getElementById("total")
+const botoapostar = document.getElementById("apostar");
+const botoparar = document.getElementById("parar")
+
+
 $('#divjoc').hide()
 
 function empezar() {
     console.log("iniciarjoc")
+    botoapostar.disabled = true;
+    botoparar.disabled = true;
     if (document.getElementById("totalinicial").value > 1){
         document.getElementById("total").value = document.getElementById("totalinicial").value
         $('#divinicial').fadeOut()
@@ -11,46 +22,27 @@ function empezar() {
         }, 1000)
     }else {
         setTimeout(() => {
-            window.alert("Introduzca el importe con el que deseas empezar")
-        }, 2000)
+            Swal.fire(
+                'Entra un import!',
+                'No has introduit el valor amb el qual vols començar!',
+                'question'
+            )        }, 200)
     }
 }
 
+const baraja = new Baraja();
+console.log("Baraja ordenada: ")
+console.log(baraja)
 
+// funcio per barajar les cartes inicialment
+baraja.shuffle();
 
-// creacio de baraja
-const palos = ["oros", "copas", "espadas", "bastos"];
-const valores = ["as", "2", "3", "4", "5", "6", "7", "sota", "caballo", "rey"];
-const baraja = [];
-// bucle per crear les cartes i afegirles
-for (let palo of palos) {
-    for (let valor of valores) {
-        const nombre = `${valor} de ${palo}`;
-        const carta = {
-            palo,
-            valor,
-            nombre
-        };
-        baraja.push(carta);
-    }
-}
+console.log("baraja mezclada: ")
 console.log(baraja)
 
 
-
-// funcio per barajar les cartes
-function mezclarcartas() {
-    return Math.random() - 0.5;
-}
-baraja.sort(mezclarcartas);
-console.log(baraja)
-
-const divcartes = document.getElementsByClassName("cartes")
-let importapostat = document.getElementById("import")
-let importotal = document.getElementById("total")
 importapostat.focus();
 // apartat per apostar i posar la carta
-const botoapostar = document.getElementById("apostar");
 botoapostar.addEventListener("click", apostar);
 let torn = 0;
 let sumatotaljugador=0.0;
@@ -59,16 +51,20 @@ function apostar() {
     if (parseInt(importapostat.value) <= parseInt(importotal.value)){
         document.getElementById("import").disabled = true
         if (torn <= 4){
-            divcartes[5 + torn].innerHTML = baraja[torn].nombre
-            divcartes[5 + torn].setAttribute("value", baraja[torn].valor)
-            contadordecartes(baraja[torn], sumatotaljugador);
+            divcartes[5 + torn].innerHTML = baraja.cartas[torn].nombre
+            divcartes[5 + torn].setAttribute("value", baraja.cartas[torn].valor)
+            contadordecartes(baraja.cartas[torn], sumatotaljugador);
             torn = torn +1;
         }else {
             parar();
             jugarcropier();
         }
     }else{
-        window.alert("L'import apostat supera el saldo total")
+        Swal.fire({
+            icon: 'error',
+            title: 'Oops...',
+            text: 'L´import apostat supera el saldo total!',
+        })
     }
     console.log();
 }
@@ -96,11 +92,12 @@ function contadordecartes2(carta) {
 }
 
 // parar
-const botoparar = document.getElementById("parar")
 botoparar.addEventListener("click", parar)
 function parar() {
     botoapostar.disabled = true;
     botoparar.disabled = true;
+    botonuevojuego.disabled = false;
+    importapostat.disabled = false;
     console.log("disabled")
     jugarcropier()
 }
@@ -108,31 +105,47 @@ function parar() {
 // nuevo juego
 const botonuevojuego = document.getElementById("nuevojuego")
 botonuevojuego.addEventListener("click", nuevojuego)
+
+
 function nuevojuego() {
-    botoapostar.disabled = false;
-    botoparar.disabled = false;
-    let importapostat = document.getElementById("import")
-    botoapostar.disabled = false;
-    importapostat.disabled = false;
+    if (parseInt(importapostat.value) > 0 && parseInt(importapostat.value) <= parseInt(importotal.value)){
+        botoapostar.disabled = false;
+        botoparar.disabled = false;
+        botonuevojuego.disabled = true;
+        importapostat.disabled = true;
 
-    for (let div = 0; div < divcartes.length; div++){
-        divcartes[div].innerHTML = "";
-        divcartes[div].setAttribute("value", " " );
-        divcartes[div].classList.add("rotar");
-        setInterval(function() {
-            divcartes[div].classList.remove("rotar");
-        }, 2000)    }
-    sumatotaljugador = 0;
-    sumatotalcropier = 0;
-    torn = 0;
-    torncropier = 0;
-    torn = 0;
 
-    baraja.sort(mezclarcartas);
+        for (let div = 0; div < divcartes.length; div++){
+            divcartes[div].innerHTML = "";
+            divcartes[div].setAttribute("value", " " );
+            divcartes[div].classList.add("rotar");
+            setInterval(function() {
+                divcartes[div].classList.remove("rotar");
+            }, 2000)    }
+        sumatotaljugador = 0;
+        sumatotalcropier = 0;
+        torn = 0;
+        torncropier = 0;
+
+        baraja.shuffle();
+    }
+    if (parseInt(importapostat.value) <= 0){
+        Swal.fire({
+            icon: 'error',
+            title: 'Oops...',
+            text: 'Debes introducir un valor valido!',
+        })
+    }
+    if ( parseInt(importapostat.value) > parseInt(importotal.value)){
+        console.log(importapostat.value+" > "+importotal.value)
+        console.log(importotal.value)
+        Swal.fire({
+            icon: 'error',
+            title: 'Oops...',
+            text: 'No puedes apostar mas del lo que tienes!',
+        })
+    }
 }
-
-
-
 
 // jugar cropies
 let sumatotalcropier = 0.0
@@ -141,9 +154,9 @@ let torncropier = 0;
 function jugarcropier() {
     console.log("torn del cropier")
     while(torncropier <= 4 && sumatotalcropier < 6){
-        divcartes[torncropier].innerHTML = baraja[torn + torncropier].nombre
-        divcartes[torncropier].setAttribute("value", baraja[torn+torncropier].valor)
-        contadordecartes2(baraja[torn+torncropier]);
+        divcartes[torncropier].innerHTML = baraja.cartas[torn+torncropier].nombre
+        divcartes[torncropier].setAttribute("value", baraja.cartas[torn+torncropier].valor)
+        contadordecartes2(baraja.cartas[torn+torncropier]);
         torncropier = torncropier +1;
     }
     recuento();
@@ -173,16 +186,41 @@ const marca = 7.5
     document.getElementById("sumajugador").innerHTML =  "La mano del jugador es de : " + sumatotaljugador;
     document.getElementById("sumacropier").innerHTML =  "La mano del cropier es de : " + sumatotalcropier;
     if (parseInt(importotal.value) == 0){
-        setTimeout(() => {
-            window.alert("lo has perdido todo, vuelta a empezar")
-        }, 500)
-        document.getElementById("totalinicial").value = 0;
-        $('#divjoc').fadeOut()
-        setTimeout(() => {
-            $('#divinicial').fadeIn()
-        }, 1000)
-        nuevojuego();
-        empezar()
+        Swal.fire({
+            icon: 'error',
+            title: 'VUELTA A EMPEZAR',
+            text: 'HAS PERDIDO LA PARTIDA!',
+        })
+        reiniciarjoc();
     }
 }
 
+function reiniciarjoc() {
+    document.getElementById("totalinicial").value = 0;
+    $('#divjoc').fadeOut()
+    setTimeout(() => {
+        $('#divinicial').fadeIn()
+    }, 1000)
+
+    botoapostar.disabled = true;
+    botoparar.disabled = true;
+    botonuevojuego.disabled = false;
+
+    importapostat.value = 0;
+    importotal.value = 0;
+
+    for (let div = 0; div < divcartes.length; div++){
+        divcartes[div].innerHTML = "";
+        divcartes[div].setAttribute("value", " " );
+        divcartes[div].classList.add("rotar");
+        setInterval(function() {
+            divcartes[div].classList.remove("rotar");
+        }, 2000)    }
+    sumatotaljugador = 0;
+    sumatotalcropier = 0;
+
+    torn = 0;
+    torncropier = 0;
+    document.getElementById("sumajugador").innerHTML =  "La mano del jugador es de : " + sumatotaljugador;
+    document.getElementById("sumacropier").innerHTML =  "La mano del cropier es de : " + sumatotalcropier;
+}
