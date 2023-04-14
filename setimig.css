@@ -1,13 +1,21 @@
 body {
     font-family: Arial, sans-serif;
     background-color: #f5f5f5;
+    background-image: url("texturamesa.jpg");
+    background-size: cover;
+    background-repeat:no-repeat ;
 }
 
 h1 {
     font-size: clamp(20px, 3vw, 35px);
     text-align: center;
     margin: 0%;
+    color: #007bff;
+    text-shadow: 0px 0px 15px #6c6c6c;
 }
+
+
+
 
 #divcropier,
 #divjugador {
@@ -26,31 +34,44 @@ h3 {
     font-size: clamp(15px, 2vw, 30px);
     text-align: center;
     margin-bottom: 1%;
+    color: #99ff77;
 }
 
 .cartes {
-    background-color: #fff;
+    background-image: url("cards/revers.jpg");
+    background-size: cover;
     border-radius: 10px;
     box-shadow: 0 10px 8px rgba(0, 0, 0, 0.1);
     margin: 0.5%;
     display: inline-block;
-    transition: 1s;
     min-height: 75px;
     min-width: 50px;
+    background-position: center center;
+    transition: transform 2.5s ease;
+    position: relative;
+
 }
 
 .rotar{
-    animation: girar 2s 0s ease-in both;
-    transform: rotateY(360deg)
+    animation: girar 2s 0s cubic-bezier(0.68, -0.55, 0.265, 1.55) both;
+    transform: rotateY(180deg);
 }
 @keyframes girar {
     0% {
         transform: rotateY(0deg);
     }
+    50% {
+        transform: rotateY(100deg);
+    }
     100% {
         transform: rotateY(360deg);
     }
 }
+/*
+#divjugador .cartes:nth-child(2){
+    transform: translateX(-80%);
+}
+ */
 
 #divbuttons {
     display: grid;
@@ -94,23 +115,36 @@ h3 {
     grid-template-rows: 50% 50%;
 }
 #importlabel, #totallabel, #import, #total, #totalinicial{
-    width: fit-content;
     display: grid;
     justify-self: center;
     text-align: center;
+    color: white;
+    font-weight: bolder;
 }
 #import, #total, #totalinicial {
-    border: none;
+    min-width: 15%;
+    max-width: 100px;
+    border-radius: 50px;
     height: 20px;
+    background-color: white;
     margin: 1%;
     font-size: 120%;
     font-weight: bolder;
+    text-shadow: 0px 0px 10px #003cff;
+    color: white;
+
 }
+
+
+
+
 #import, #totalinicial{
-    width: 15%;
     outline: none;
-    border-bottom: 2px solid #007bff;
-    background-color: #f5f5f5;
+    border: 3px groove #ffffff;
+    background-color: transparent;
+    color: white;
+    text-shadow: 0px 0px 5px #6c6c6c;
+
 }
 
 @media only screen and (max-width: 768px) {
@@ -135,10 +169,22 @@ h3 {
     display: grid;
     justify-content: center;
     text-align: center;
+    margin: 2%;
 }
+#explicacionH2 {
+    color: #7fb9ff;
+    font-size: clamp(15px, 1.5vw, 25px);
+}
+
 #divinicial p{
+    color: white;
+    display: none;
     padding-right: 5%;
     padding-left: 5%;
+}
+#flecha{
+    width: 2%;
+    min-width: 15px;
 }
 #divjoc{
     display: grid;
@@ -148,5 +194,11 @@ input:disabled {
     pointer-events: none;
     opacity: 0.5;
 }
+
+#sumacropier, #sumajugador{
+    color: white;
+    text-shadow: 0px 0px 5px #6c6c6c;
+}
+
 
 

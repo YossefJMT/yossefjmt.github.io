@@ -6,12 +6,21 @@ let importapostat = document.getElementById("import")
 let importotal = document.getElementById("total")
 const botoapostar = document.getElementById("apostar");
 const botoparar = document.getElementById("parar")
+const titulo = document.getElementById('explicacionH2');
+const parrafo = document.getElementById('explicacionP');
+
+titulo.addEventListener('click', () => {
+    if (parrafo.style.display === 'none') {
+        parrafo.style.display = 'block';
+    } else {
+        parrafo.style.display = 'none';
+    }
+});
 
 
 $('#divjoc').hide()
 
 function empezar() {
-    console.log("iniciarjoc")
     botoapostar.disabled = true;
     botoparar.disabled = true;
     if (document.getElementById("totalinicial").value > 1){
@@ -31,14 +40,12 @@ function empezar() {
 }
 
 const baraja = new Baraja();
-console.log("Baraja ordenada: ")
-console.log(baraja)
+
 
 // funcio per barajar les cartes inicialment
 baraja.shuffle();
 
-console.log("baraja mezclada: ")
-console.log(baraja)
+
 
 
 importapostat.focus();
@@ -51,7 +58,8 @@ function apostar() {
     if (parseInt(importapostat.value) <= parseInt(importotal.value)){
         document.getElementById("import").disabled = true
         if (torn <= 4){
-            divcartes[5 + torn].innerHTML = baraja.cartas[torn].nombre
+            // divcartes[5 + torn].innerHTML = baraja.cartas[torn].nombre
+            divcartes[5+torn].style.backgroundImage = `url(${baraja.cartas[torn].rutaimagen})`
             divcartes[5 + torn].setAttribute("value", baraja.cartas[torn].valor)
             contadordecartes(baraja.cartas[torn], sumatotaljugador);
             torn = torn +1;
@@ -66,11 +74,10 @@ function apostar() {
             text: 'L´import apostat supera el saldo total!',
         })
     }
-    console.log();
 }
 
 // comprueba constantment cuant porta, ho sigui la suma dels valors
-function contadordecartes(carta) {
+function contadordecartes(carta, sumajugador) {
     if (carta.valor === "as") {
         sumatotaljugador = sumatotaljugador + 1;
     } else if (carta.valor === "sota" || carta.valor === "caballo" || carta.valor === "rey") {
@@ -78,7 +85,7 @@ function contadordecartes(carta) {
     } else {
         sumatotaljugador = sumatotaljugador + parseFloat(carta.valor);
     }
-    console.log(sumatotaljugador);
+    document.getElementById("sumajugador").innerHTML =  "La mano del jugador es de : " + sumatotaljugador;
 }
 function contadordecartes2(carta) {
     if (carta.valor === "as") {
@@ -88,7 +95,7 @@ function contadordecartes2(carta) {
     } else {
         sumatotalcropier = sumatotalcropier + parseFloat(carta.valor);
     }
-    console.log(sumatotalcropier);
+    document.getElementById("sumacropier").innerHTML =  "La mano del cropier es de : " + sumatotalcropier;
 }
 
 // parar
@@ -98,7 +105,6 @@ function parar() {
     botoparar.disabled = true;
     botonuevojuego.disabled = false;
     importapostat.disabled = false;
-    console.log("disabled")
     jugarcropier()
 }
 
@@ -115,6 +121,7 @@ function nuevojuego() {
         importapostat.disabled = true;
 
 
+
         for (let div = 0; div < divcartes.length; div++){
             divcartes[div].innerHTML = "";
             divcartes[div].setAttribute("value", " " );
@@ -129,7 +136,7 @@ function nuevojuego() {
 
         baraja.shuffle();
     }
-    if (parseInt(importapostat.value) <= 0){
+    if (parseInt(importapostat.value) <= 0 || importapostat.value == ""){
         Swal.fire({
             icon: 'error',
             title: 'Oops...',
@@ -137,8 +144,6 @@ function nuevojuego() {
         })
     }
     if ( parseInt(importapostat.value) > parseInt(importotal.value)){
-        console.log(importapostat.value+" > "+importotal.value)
-        console.log(importotal.value)
         Swal.fire({
             icon: 'error',
             title: 'Oops...',
@@ -152,9 +157,9 @@ let sumatotalcropier = 0.0
 let torncropier = 0;
 
 function jugarcropier() {
-    console.log("torn del cropier")
     while(torncropier <= 4 && sumatotalcropier < 6){
-        divcartes[torncropier].innerHTML = baraja.cartas[torn+torncropier].nombre
+        // divcartes[torncropier].innerHTML = baraja.cartas[torn+torncropier].nombre
+        divcartes[torncropier].style.backgroundImage = `url(${baraja.cartas[torn+torncropier].rutaimagen})`
         divcartes[torncropier].setAttribute("value", baraja.cartas[torn+torncropier].valor)
         contadordecartes2(baraja.cartas[torn+torncropier]);
         torncropier = torncropier +1;
@@ -205,7 +210,6 @@ function reiniciarjoc() {
     botoapostar.disabled = true;
     botoparar.disabled = true;
     botonuevojuego.disabled = false;
-
     importapostat.value = 0;
     importotal.value = 0;
 
