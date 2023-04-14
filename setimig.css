@@ -1,33 +1,40 @@
+html{
+    height: max-content;
+    min-height: 100vh;
+    box-shadow: inset 0px -50px 200px black;
+}
+
 body {
     font-family: Arial, sans-serif;
     background-color: #f5f5f5;
-    background-image: url("texturamesa.jpg");
+    background-image: url("texturamesa3.jpg");
     background-size: cover;
-    background-repeat:no-repeat ;
+    background-repeat: repeat ;
+    padding: 0%;
+    margin: 1%;
 }
+
 
 h1 {
     font-size: clamp(20px, 3vw, 35px);
     text-align: center;
+    font-weight: 1000;
+    padding-top: 1% ;
     margin: 0%;
-    color: #007bff;
-    text-shadow: 0px 0px 15px #6c6c6c;
+    color: #003670;
+    text-shadow: 0px 0px 15px #ffffff;
 }
-
 
 
 
 #divcropier,
 #divjugador {
     display: flex;
+    flex-wrap:wrap ;
     align-items: center;
     justify-content: center;
-    margin: 0 auto;
+    margin: 0;
     max-width: 100%;
-}
-
-#divcropier {
-    margin-bottom: 2%;
 }
 
 h3 {
@@ -42,7 +49,7 @@ h3 {
     background-size: cover;
     border-radius: 10px;
     box-shadow: 0 10px 8px rgba(0, 0, 0, 0.1);
-    margin: 0.5%;
+    margin: 0.5% ;
     display: inline-block;
     min-height: 75px;
     min-width: 50px;
@@ -79,7 +86,8 @@ h3 {
     align-items: center;
     gap: 0%;
     grid-template-columns: 33% 33% 33%;
-    margin: 1%;
+    margin:0% ;
+    margin-top: 1%;
 }
 
 #divbuttons input, #iniciarjoc {
@@ -122,7 +130,8 @@ h3 {
     font-weight: bolder;
 }
 #import, #total, #totalinicial {
-    min-width: 15%;
+    min-width: 50px;
+    width: 15%;
     max-width: 100px;
     border-radius: 50px;
     height: 20px;
@@ -147,18 +156,19 @@ h3 {
 
 }
 
-@media only screen and (max-width: 768px) {
+@media only screen and (max-width: 700px) {
     .cartes {
         height: 15vw;
         width: 10vw;
     }
     #divbuttons{
+        margin-top: 4%;
         grid-template-columns: 100%;
         grid-template-rows: 33% 33% 33%;
     }
 }
 
-@media only screen and (min-width: 768px) {
+@media only screen and (min-width: 700px) {
     .cartes {
         height: 120px;
         width: 80px;
@@ -196,6 +206,7 @@ input:disabled {
 }
 
 #sumacropier, #sumajugador{
+    margin: 0%;
     color: white;
     text-shadow: 0px 0px 5px #6c6c6c;
 }

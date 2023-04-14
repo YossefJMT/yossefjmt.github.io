@@ -139,7 +139,7 @@ function crearDivCropier() {
 let numcartes = 0
 function mostrarCarta(jugador, divcartes) {
 
-    if (jugador1.calcularPuntuacio() < 7.5 || cropier.calcularPuntuacio() < 6){
+    if (jugador1.calcularPuntuacio() <= objectiu || cropier.calcularPuntuacio() < 6){
         divcartes[jugador.cartesAgafades].classList.add("rotar");
         jugador.demanarCarta(jugador.cartesAgafades + numcartes)
         console.log(jugador.mazo[jugador.cartesAgafades].rutaimagen)
